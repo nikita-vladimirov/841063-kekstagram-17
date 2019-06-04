@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Никита Владимиров](https://up.htmlacademy.ru/javascript/17/user/841063).
-* Наставник: `Неизвестно`.
+* Наставник: [Гоша Егорян](https://htmlacademy.ru/profile/id85633).
 
 ---
 
