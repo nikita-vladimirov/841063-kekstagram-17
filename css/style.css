@@ -218,7 +218,7 @@ main {
 
 .picture {
   position: relative;
-  line-height: 0;
+  line-height: 14px;
 }
 
 .picture__img {
@@ -238,6 +238,8 @@ main {
 
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
+
+  z-index: 1;
 
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
