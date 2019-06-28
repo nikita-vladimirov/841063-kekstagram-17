@@ -44,3 +44,26 @@ function publishPosts() {
 
 createPosts();
 publishPosts();
+
+var toggleEditForm = function (selector, classItem) {
+  document.querySelector(selector).classList.toggle(classItem);
+};
+
+// Если произошла загрузка картинки, то отобразится форма редактирования
+window.imgUpload = document.querySelector('#upload-file');
+
+window.imgUpload.addEventListener('change', function () {
+  toggleEditForm('.img-upload__overlay', 'hidden');
+});
+
+// Кнопка закрытия формы редактирования
+var closeButton = document.querySelector('#upload-cancel');
+closeButton.addEventListener('click', function () {
+  toggleEditForm('.img-upload__overlay', 'hidden');
+});
+
+document.addEventListener('keypress', function (evt) {
+  if (evt.keyCode === 27) {
+    document.querySelector('.img-upload__overlay').classList.add('hidden');
+  }
+});
