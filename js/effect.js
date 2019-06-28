@@ -42,12 +42,12 @@ pin.addEventListener('mouseup', function () {
   ];
 
   var img = document.querySelector('.img-upload__preview').querySelector('img');
-  (function () {
+  var addFilter = function () {
     for (var j = 0; j < imageClassList.length; j++) {
       if (img.className === imageClassList[j].name) {
         img.style.filter = imageClassList[j].filter;
       }
     }
-  };);
+  };
+  addFilter();
 });
-
