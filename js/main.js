@@ -1,6 +1,6 @@
 'use strict';
 
-var publishedPosts = [];
+window.publishedPosts = [];
 var numberPosts = 25; // Количество необходимых постов
 var comments = [
   'Всё отлично!',
@@ -10,8 +10,6 @@ var comments = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-var postTemlate = document.querySelector('#picture').content.querySelector('.picture');
-var fragment = document.createDocumentFragment();
 
 function getRandomValue(min, max) {
   var randomValue = min + Math.random() * (max + 1 - min);
@@ -19,31 +17,30 @@ function getRandomValue(min, max) {
   return randomValue;
 }
 
-function createPosts() {
+(function () {
   for (var i = 0; i < numberPosts; i++) {
     var url = 'photos/' + Number(i + 1) + '.jpg';
     var likes = getRandomValue(15, 200);
     var message = comments[getRandomValue(0, (comments.length - 1))];
 
-    publishedPosts[i] = {avatar: url, likes: likes, message: message};
+    window.publishedPosts[i] = {avatar: url, likes: likes, message: message};
   }
-}
+})();
 
-function publishPosts() {
+(function () {
   for (var i = 0; i < numberPosts; i++) {
+    var postTemlate = document.querySelector('#picture').content.querySelector('.picture');
     var post = postTemlate.cloneNode(true);
 
-    post.querySelector('img').src = publishedPosts[i].avatar;
-    post.querySelector('.picture__likes').textContent = publishedPosts[i].likes;
-    post.querySelector('.picture__comments').textContent = publishedPosts[i].message;
+    post.querySelector('img').src = window.publishedPosts[i].avatar;
+    post.querySelector('.picture__likes').textContent = window.publishedPosts[i].likes;
+    post.querySelector('.picture__comments').textContent = window.publishedPosts[i].message;
 
+    var fragment = document.createDocumentFragment();
     fragment.appendChild(post);
     document.querySelector('.pictures').appendChild(fragment);
   }
-}
-
-createPosts();
-publishPosts();
+})();
 
 var toggleEditForm = function (selector, classItem) {
   document.querySelector(selector).classList.toggle(classItem);
@@ -51,7 +48,6 @@ var toggleEditForm = function (selector, classItem) {
 
 // Если произошла загрузка картинки, то отобразится форма редактирования
 window.imgUpload = document.querySelector('#upload-file');
-
 window.imgUpload.addEventListener('change', function () {
   toggleEditForm('.img-upload__overlay', 'hidden');
 });
@@ -63,7 +59,7 @@ closeButton.addEventListener('click', function () {
 });
 
 document.addEventListener('keypress', function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === 27 && document.activeElement.className !== 'text__description') {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
   }
 });

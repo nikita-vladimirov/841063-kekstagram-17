@@ -1,6 +1,6 @@
 'use strict';
 
-var effectsList = document.querySelectorAll('.effects__radio');
+var effectsList = Array.from(document.querySelectorAll('.effects__radio'));
 
 var addClickListener = function (effectsItem) {
   effectsItem.addEventListener('click', function () {
@@ -10,7 +10,7 @@ var addClickListener = function (effectsItem) {
     imagePreview.classList.add('effects__preview--' + effectsItem.value);
 
     if (effectsItem.value === 'none') {
-      // Скрывает ползунок
+      // Скрывает ползунок для изображения без стилей
       document.querySelector('.img-upload__effect-level').classList.add('hidden');
     } else {
       document.querySelector('.img-upload__effect-level').classList.remove('hidden');
@@ -18,19 +18,18 @@ var addClickListener = function (effectsItem) {
   });
 };
 
-for (var i = 0; i < effectsList.length; i++) {
-  var effectsItem = effectsList[i];
-  addClickListener(effectsItem);
-}
+effectsList.forEach(function (element) {
+  addClickListener(element);
+});
 
-var pinStartPosition = 450; // указано для примера, так как пока нет обработчика 'mousedown'
 var pin = document.querySelector('.effect-level__pin');
-pin.style.left = '200px'; // указано для примера, так как пока нет обработчика 'mousedown'
 pin.addEventListener('mouseup', function () {
+  pin.style.left = '200px'; // указано для примера, так как пока нет обработчика 'mousedown'
+  var pinStartPosition = 450; // указано для примера, так как пока нет обработчика 'mousedown'
+
   var effectValue = document.querySelector('.effect-level__value').value;
   var pinEndPosition = Number(pin.style.left.slice(0, -2)); // удаляет 'px' и записывает число
   var proportion = pinEndPosition / pinStartPosition;
-
   effectValue = effectValue * proportion;
 
   var imageClassList = [
@@ -42,12 +41,11 @@ pin.addEventListener('mouseup', function () {
   ];
 
   var img = document.querySelector('.img-upload__preview').querySelector('img');
-  var addFilter = function () {
-    for (var j = 0; j < imageClassList.length; j++) {
-      if (img.className === imageClassList[j].name) {
-        img.style.filter = imageClassList[j].filter;
+  (function () {
+    imageClassList.forEach(function (element) {
+      if (img.className === element.name) {
+        img.style.filter = element.filter;
       }
-    }
-  };
-  addFilter();
+    });
+  })();
 });
