@@ -9,6 +9,8 @@ var addClickListener = function (effectsItem) {
     imagePreview.removeAttribute('style'); // Удаляет стили, добавляемые при изменении положении пина
     imagePreview.classList.add('effects__preview--' + effectsItem.value);
     pin.style.left = '100%'; // Устанавливает значение максимальное значение фильтра и ползунка
+    document.querySelector('.effect-level__depth').style.width = '100%';
+
     if (effectsItem.value === 'none') {
       // Скрывает ползунок для изображения без стилей
       document.querySelector('.img-upload__effect-level').classList.add('hidden');
@@ -27,7 +29,6 @@ var resetEffect = function () {
   var img = document.querySelector('.img-upload__preview').querySelector('img');
   var pinEndLeft = Number(pin.style.left.slice(0, -1)); // Удаляет '%' и записывает число
   var proportion = pinEndLeft / 100;
-
   effectValue = effectValue * proportion;
 
   var imageClassList = [
