@@ -1,46 +1,26 @@
 'use strict';
 
-window.publishedPosts = [];
-var numberPosts = 25; // Количество необходимых постов
-var comments = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-];
+var xhr = new XMLHttpRequest();
+xhr.responseType = 'json';
 
-function getRandomValue(min, max) {
-  var randomValue = min + Math.random() * (max + 1 - min);
-  randomValue = Math.floor(randomValue);
-  return randomValue;
-}
-
-(function () {
-  for (var i = 0; i < numberPosts; i++) {
-    var url = 'photos/' + Number(i + 1) + '.jpg';
-    var likes = getRandomValue(15, 200);
-    var message = comments[getRandomValue(0, (comments.length - 1))];
-
-    window.publishedPosts[i] = {avatar: url, likes: likes, message: message};
-  }
-})();
-
-(function () {
-  for (var i = 0; i < numberPosts; i++) {
+xhr.addEventListener('load', function () {
+  xhr.response.forEach(function (item) {
     var postTemlate = document.querySelector('#picture').content.querySelector('.picture');
     var post = postTemlate.cloneNode(true);
 
-    post.querySelector('img').src = window.publishedPosts[i].avatar;
-    post.querySelector('.picture__likes').textContent = window.publishedPosts[i].likes;
-    post.querySelector('.picture__comments').textContent = window.publishedPosts[i].message;
+    post.querySelector('img').src = item.url;
+    post.querySelector('.picture__likes').textContent = item.likes;
+    post.querySelector('.picture__comments').textContent = item.comments.length;
 
     var fragment = document.createDocumentFragment();
     fragment.appendChild(post);
     document.querySelector('.pictures').appendChild(fragment);
-  }
-})();
+  });
+});
+
+
+xhr.open('GET', 'https://js.dump.academy/kekstagram/data');
+xhr.send();
 
 var toggleEditForm = function (selector, classItem) {
   document.querySelector(selector).classList.toggle(classItem);
