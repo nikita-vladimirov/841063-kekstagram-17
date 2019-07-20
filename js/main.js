@@ -41,8 +41,10 @@ var filterButtons = Array.from(document.querySelectorAll('.img-filters__button')
 filterButtons.forEach(function (it) {
   var lastTimeout;
   it.addEventListener('click', function () {
-    window.deleteElements('.pictures', '.picture'); // Удаляем все посты
+    // Удаляем все посты, перед отрисовкой новых
+    window.deleteElements('.pictures', '.picture');
 
+    // Меняем стиль активной кнопки
     filterButtons.forEach(function (element) {
       element.classList.remove('img-filters__button--active');
     });
@@ -52,52 +54,7 @@ filterButtons.forEach(function (it) {
       window.clearTimeout(lastTimeout);
     }
     lastTimeout = window.setTimeout(function () {
-      switch (it.id) {
-
-        case 'filter-popular':
-          window.photos.forEach(function (item) {
-            createPost(item);
-          });
-          window.openBigPicture(window.photos);// это тоже не работает
-          break;
-
-        case 'filter-new':
-          var arrayPhotos = window.photos.slice();
-          for (var i = 0; i < 15; i++) {
-            var rand = Math.floor(Math.random() * (arrayPhotos.length - 1));
-            arrayPhotos.splice(rand, 1);
-          }
-
-          arrayPhotos.forEach(function (item) {
-            createPost(item);
-          });
-
-
-          window.openBigPicture(arrayPhotos);
-          break;
-
-        case 'filter-discussed':
-          var discussedPhotos = window.photos.slice();
-          discussedPhotos.sort(function (first, second) {
-            if (first.name > second.limes) {
-              return 1;
-            } else if (first.likes < second.likes) {
-              return -1;
-            } else {
-              return 0;
-            }
-          });
-
-          discussedPhotos.reverse();
-
-          discussedPhotos.forEach(function (item) {
-            createPost(item);
-          });
-          window.openBigPicture(discussedPhotos);
-          // надо разобраться как передать в функцию актуальный массив, для того чтобы текст комметариев брался корректный
-          break;
-      }
-      window.openBigPicture();
+      checkFilter(it);
     }, 500);
   });
 });
@@ -129,3 +86,51 @@ window.getRandomValue = function (min, max) {
   randomValue = Math.floor(randomValue);
   return randomValue;
 };
+
+var checkFilter = function (it) {
+  switch (it.id) {
+
+    case 'filter-popular':
+      window.photos.forEach(function (item) {
+        createPost(item);
+      });
+      window.openBigPicture(window.photos);// это тоже не работает
+      break;
+
+    case 'filter-new':
+      var arrayPhotos = window.photos.slice();
+      for (var i = 0; i < 15; i++) {
+        var rand = Math.floor(Math.random() * (arrayPhotos.length - 1));
+        arrayPhotos.splice(rand, 1);
+      }
+      arrayPhotos.forEach(function (item) {
+        createPost(item);
+      });
+
+
+      window.openBigPicture(arrayPhotos);
+      break;
+
+    case 'filter-discussed':
+      var discussedPhotos = window.photos.slice();
+      discussedPhotos.sort(function (first, second) {
+        if (first.name > second.limes) {
+          return 1;
+        } else if (first.likes < second.likes) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      discussedPhotos.reverse();
+
+      discussedPhotos.forEach(function (item) {
+        createPost(item);
+      });
+      window.openBigPicture(discussedPhotos);
+      // надо разобраться как передать в функцию актуальный массив, для того чтобы текст комметариев брался корректный
+      break;
+  }
+};
+
