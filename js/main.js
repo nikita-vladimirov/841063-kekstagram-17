@@ -9,6 +9,7 @@ xhr.addEventListener('load', function () {
     createPost(item);
     document.querySelector('.img-filters').classList.remove('img-filters--inactive');
   });
+  window.openBigPicture(window.photos);
 });
 
 xhr.open('GET', 'https://js.dump.academy/kekstagram/data');
@@ -27,10 +28,10 @@ var createPost = function (item) {
 
 };
 
-var deletePictures = function () {
-  var pictures = document.querySelector('.pictures');
-  while (pictures.querySelector('.picture')) {
-    pictures.removeChild(pictures.querySelector('.picture'));
+window.deleteElements = function (elementsList, element) {
+  var list = document.querySelector(elementsList);
+  while (list.querySelector(element)) {
+    list.removeChild(list.querySelector(element));
   }
 };
 
@@ -40,7 +41,7 @@ var filterButtons = Array.from(document.querySelectorAll('.img-filters__button')
 filterButtons.forEach(function (it) {
   var lastTimeout;
   it.addEventListener('click', function () {
-    deletePictures(); // Удаляем все посты
+    window.deleteElements('.pictures', '.picture'); // Удаляем все посты
 
     filterButtons.forEach(function (element) {
       element.classList.remove('img-filters__button--active');
@@ -57,15 +58,22 @@ filterButtons.forEach(function (it) {
           window.photos.forEach(function (item) {
             createPost(item);
           });
+          window.openBigPicture(window.photos);// это тоже не работает
           break;
 
         case 'filter-new':
-          var newPhotos = window.photos.slice();
-          for (var i = 0; i < 10; i++) {
-            var rand = Math.floor(Math.random() * (newPhotos.length - 1));
-            newPhotos.splice(rand, 1);
-            createPost(newPhotos[rand]);
+          var arrayPhotos = window.photos.slice();
+          for (var i = 0; i < 15; i++) {
+            var rand = Math.floor(Math.random() * (arrayPhotos.length - 1));
+            arrayPhotos.splice(rand, 1);
           }
+
+          arrayPhotos.forEach(function (item) {
+            createPost(item);
+          });
+
+
+          window.openBigPicture(arrayPhotos);
           break;
 
         case 'filter-discussed':
@@ -85,8 +93,11 @@ filterButtons.forEach(function (it) {
           discussedPhotos.forEach(function (item) {
             createPost(item);
           });
+          window.openBigPicture(discussedPhotos);
+          // надо разобраться как передать в функцию актуальный массив, для того чтобы текст комметариев брался корректный
           break;
       }
+      window.openBigPicture();
     }, 500);
   });
 });
@@ -112,3 +123,9 @@ document.addEventListener('keypress', function (evt) {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
   }
 });
+
+window.getRandomValue = function (min, max) {
+  var randomValue = min + Math.random() * (max + 1 - min);
+  randomValue = Math.floor(randomValue);
+  return randomValue;
+};
