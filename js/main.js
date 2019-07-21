@@ -76,7 +76,7 @@ closeButton.addEventListener('click', function () {
 });
 
 document.addEventListener('keypress', function (evt) {
-  if (evt.keyCode === 27 && document.activeElement.className !== 'text__description') {
+  if (evt.keyCode === 27 && document.activeElement.className !== 'text__description' && document.activeElement.className !== 'text__hashtags') {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
   }
 });
@@ -107,7 +107,6 @@ var checkFilter = function (it) {
         createPost(item);
       });
 
-
       window.openBigPicture(arrayPhotos);
       break;
 
@@ -124,13 +123,10 @@ var checkFilter = function (it) {
       });
 
       discussedPhotos.reverse();
-
       discussedPhotos.forEach(function (item) {
         createPost(item);
       });
       window.openBigPicture(discussedPhotos);
-      // надо разобраться как передать в функцию актуальный массив, для того чтобы текст комметариев брался корректный
       break;
   }
 };
-
