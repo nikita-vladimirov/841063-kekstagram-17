@@ -1,8 +1,7 @@
 'use strict';
 
 (function () {
-  // var URL = 'https://js.dump.academy/kekstagram';
-  var URL = 'https://js.dump.academy/kekstagdram';
+  var URL = 'https://js.dump.academy/kektstagram';
 
   window.upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
@@ -16,9 +15,9 @@
       }
     });
 
-    xhr.addEventListener('error', function () {
-      onError();
-    });
+    // xhr.addEventListener('error', function () {
+    //   onError();
+    // });
 
     xhr.open('POST', URL);
     xhr.send(data);
