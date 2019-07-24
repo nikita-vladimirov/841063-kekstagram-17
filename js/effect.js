@@ -1,5 +1,15 @@
 'use strict';
 
+window.clearEffect = function () {
+  var imagePreview = document.querySelector('.img-upload__preview').querySelector('img');
+  imagePreview.removeAttribute('class');
+  imagePreview.removeAttribute('style'); // Удаляет стили, добавляемые при изменении положении пина
+  imagePreview.classList.add('effects__preview--none');
+  pin.style.left = '100%'; // Устанавливает значение максимальное значение фильтра и ползунка
+  document.querySelector('.effect-level__depth').style.width = '100%';
+  document.querySelector('.img-upload__effect-level').classList.add('hidden');
+};
+
 var effectsList = Array.from(document.querySelectorAll('.effects__radio'));
 var pin = document.querySelector('.effect-level__pin');
 var addClickListener = function (effectsItem) {

@@ -63,10 +63,29 @@ var toggleEditForm = function (selector, classItem) {
   document.querySelector(selector).classList.toggle(classItem);
 };
 
+// var form = document.querySelector('.img-upload__form');
+// form.addEventListener('submit', function (evt) {
+//   document.querySelector('.img-upload__overlay').classList.add('hidden');
+//   window.upload(new FormData(form), function (response) {
+//     form.reset();
+//     window.clearEffect();
+//     formSuccess();
+//   });
+//   evt.preventDefault();
+// });
+
+var form = document.querySelector('.img-upload__form');
+form.addEventListener('submit', function (evt) {
+  document.querySelector('.img-upload__overlay').classList.add('hidden');
+  window.upload(new FormData(form), formSuccess, formError);
+  evt.preventDefault();
+});
+
 // Если произошла загрузка картинки, то отобразится форма редактирования
 window.imgUpload = document.querySelector('#upload-file');
 window.imgUpload.addEventListener('change', function () {
   toggleEditForm('.img-upload__overlay', 'hidden');
+
 });
 
 // Кнопка закрытия формы редактирования
@@ -78,6 +97,14 @@ closeButton.addEventListener('click', function () {
 document.addEventListener('keypress', function (evt) {
   if (evt.keyCode === 27 && document.activeElement.className !== 'text__description' && document.activeElement.className !== 'text__hashtags') {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
+  }
+
+  if (evt.keyCode === 27 && document.querySelector('.success')) {
+    document.querySelector('.success').classList.add('visually-hidden');
+  }
+
+  if (evt.keyCode === 27 && document.querySelector('.error')) {
+    document.querySelector('.error').classList.add('visually-hidden');
   }
 });
 
@@ -129,4 +156,53 @@ var checkFilter = function (it) {
       window.openBigPicture(discussedPhotos);
       break;
   }
+};
+
+var formSuccess = function () {
+  form.reset();
+  window.clearEffect();
+  var successTemplate = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+  document.querySelector('main').appendChild(successTemplate);
+  var success = document.querySelector('.success');
+
+  var successButton = document.querySelector('.success__button');
+  successButton.addEventListener('click', function () {
+    success.classList.add('visually-hidden');
+  });
+
+  var whereClick = function (evt) {
+    var target = evt.target;
+    if (target.className === success.className) {
+      success.classList.add('visually-hidden');
+    }
+  };
+
+  success.addEventListener('click', whereClick);
+};
+
+var formError = function () {
+  if (!document.querySelector('.error')) {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    document.querySelector('main').appendChild(errorTemplate);
+    var error = document.querySelector('.error');
+
+    var errorButtons = document.querySelectorAll('.error__button');
+    errorButtons.forEach(function (it) {
+      it.addEventListener('click', function () {
+        error.classList.add('visually-hidden');
+      });
+    });
+
+    var whereClick = function (evt) {
+      var target = evt.target;
+      if (target.className === error.className) {
+        error.classList.add('visually-hidden');
+      }
+    };
+
+    error.addEventListener('click', whereClick);
+  } else {
+    document.querySelector('.error').classList.remove('visually-hidden');
+  }
+
 };

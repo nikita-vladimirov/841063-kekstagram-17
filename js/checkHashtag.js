@@ -1,24 +1,18 @@
 'use strict';
 
 var inputHashtag = document.querySelector('.text__hashtags');
-inputHashtag.addEventListener('input', function () {
-  // inputHashtag.value = inputHashtag.value.toLowerCase();
+inputHashtag.addEventListener('change', function () {
   var hashtags = inputHashtag.value.split(' '); // Преобразовывает строку в массив
 
   for (var i = 0; i < hashtags.length; i++) {
     hashtags[i] = hashtags[i].toLowerCase();
   }
 
-  // Проверка: все ли элементы начинаются с #
-  var checkHashOnly = hashtags.every(function (item) {
-    return item[0] !== '#';
-  });
-
   var checkMinValue = hashtags.some(function (item) {
     return !item[1] && item[0] === '#';
   });
 
-  var checkHashStart = hashtags.every(function (item) {
+  var checkHashStart = hashtags.some(function (item) {
     return !item[1] && item[0] !== '#';
   });
 
@@ -26,12 +20,10 @@ inputHashtag.addEventListener('input', function () {
     return item.length > 20;
   });
 
-  if (checkHashOnly) {
+  if (checkHashStart) {
     inputHashtag.setCustomValidity('Хеш-теги должны начинаться с #');
   } else if (checkMinValue) {
     inputHashtag.setCustomValidity('Хеш-тег не может состоять только из #');
-  } else if (checkHashStart) {
-    inputHashtag.setCustomValidity('Хеш-теги должны начинаться с #');
   } else if (checkLength) {
     inputHashtag.setCustomValidity('Длина хеш-тега не может превышать 20 символов');
   } else {
