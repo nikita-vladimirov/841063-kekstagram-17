@@ -3,6 +3,7 @@
 (function () {
   window.openBigPicture = function (picturesArray) {
 
+
     var pictures = Array.from(document.querySelectorAll('.picture'));
     pictures.forEach(function (it, index) {
       it.addEventListener('click', function () {
