@@ -2,7 +2,6 @@
 
 (function () {
   window.openBigPicture = function (picturesArray) {
-
     var pictures = Array.from(document.querySelectorAll('.picture'));
     pictures.forEach(function (it, index) {
       it.addEventListener('click', function () {
@@ -24,6 +23,19 @@
 
     var bigPicture = document.querySelector('.big-picture');
 
+    var showComments = function () {
+      var commentsHidden = bigPicture.querySelectorAll('.social__comments .visually-hidden');
+
+      for (var i = 0; i < 5 && i < commentsHidden.length; i++) {
+        if (i < commentsHidden.length) {
+          commentsHidden[i].classList.remove('visually-hidden');
+        }
+
+        if (!bigPicture.querySelector('.social__comments .visually-hidden')) {
+          commentsButton.classList.add('hidden');
+        }
+      }
+    };
 
     var commentsButton = document.querySelector('.comments-loader');
     commentsButton.addEventListener('click', function () {
@@ -38,20 +50,6 @@
 
       showComments();
     });
-
-    var showComments = function () {
-      var commentsHidden = bigPicture.querySelectorAll('.social__comments .visually-hidden');
-
-      for (var i = 0; i < 5 && i < commentsHidden.length; i++) {
-        if (i < commentsHidden.length) {
-          commentsHidden[i].classList.remove('visually-hidden');
-        }
-
-        if (!bigPicture.querySelector('.social__comments .visually-hidden')) {
-          commentsButton.classList.add('hidden');
-        }
-      }
-    };
 
     var createBigPictureContent = function (index) {
       window.deleteElements('.social__comments', '.social__comment');
