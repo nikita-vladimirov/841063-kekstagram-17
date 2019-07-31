@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-// Загрузка фото с сервера
+  // Загрузка фото с сервера
   window.loadPhoto();
 
   // Функция удаления элементов
@@ -12,7 +12,7 @@
     }
   };
 
-  //  Находим все кнопки фильтра на главной странице
+  // Находим все кнопки фильтра на главной странице
   var filterButtons = Array.from(document.querySelectorAll('.img-filters__button'));
 
   filterButtons.forEach(function (it) {
@@ -51,12 +51,6 @@
     }
   });
 
-  // Если произошла загрузка картинки, то отобразится форма редактирования
-  window.imgUpload = document.querySelector('#upload-file');
-  window.imgUpload.addEventListener('change', function () {
-    toggleEditForm('.img-upload__overlay', 'hidden');
-  });
-
   // Кнопка закрытия формы редактирования
   var closeButton = document.querySelector('#upload-cancel');
   closeButton.addEventListener('click', function () {
@@ -64,16 +58,17 @@
   });
 
   // Закрытие окон по escape
-  document.addEventListener('keypress', function (evt) {
-    if (evt.keyCode === 27 && document.activeElement.className !== 'text__description' && document.activeElement.className !== 'text__hashtags') {
+  var ESC = 27;
+  document.addEventListener('keyup', function (evt) {
+    if (evt.keyCode === ESC && document.activeElement.className !== 'text__description' && document.activeElement.className !== 'text__hashtags') {
       document.querySelector('.img-upload__overlay').classList.add('hidden');
     }
 
-    if (evt.keyCode === 27 && document.querySelector('.success')) {
+    if (evt.keyCode === ESC && document.querySelector('.success')) {
       document.querySelector('.success').classList.add('visually-hidden');
     }
 
-    if (evt.keyCode === 27 && document.querySelector('.error')) {
+    if (evt.keyCode === ESC && document.querySelector('.error')) {
       document.querySelector('.error').classList.add('visually-hidden');
     }
   });

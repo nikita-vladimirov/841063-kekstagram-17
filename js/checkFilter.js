@@ -9,7 +9,7 @@
         window.photos.forEach(function (item) {
           window.createPost(item);
         });
-        window.openBigPicture(window.photos);// это тоже не работает
+        window.openBigPicture(window.photos);
         break;
 
       // Новые
@@ -32,7 +32,7 @@
         discussedPhotos.sort(function (first, second) {
           if (first.name > second.limes) {
             return 1;
-          } else if (first.likes < second.likes) {
+          } else if (first.comments < second.comments) {
             return -1;
           } else {
             return 0;
